@@ -10,7 +10,7 @@
 
    ```bash
    git clone <REPOSITORY_URL>
-   cd RecruitmentTasks
+   cd Pesel_Validation_Word_Shuffle
    ```
 
 2. Create and activate a virtual environment:
