@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Walidacja PESEL{% endblock %}
+
+{%block body %}
+
+<h1 class="text-center mb-4">Wprowadź numer PESEL</h1>
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="id_number" class="form-label">Numer PESEL:</label>
+    {{ form.number }}
+        {% if result and not result.valid and result.error %}
+        <div class="text-danger">{{ result.error }}</div>
+        {% endif %}
+  </div>
+  <button type="submit" class="btn btn-primary">Sprawdź</button>
+</form>
+
+{% if result %}
+<div
+  class="mt-4 alert {% if result.valid %}alert-success{% else %}alert-danger{% endif %}"
+>
+  {% if result.valid %}
+    <h2>Numer PESEL jest poprawny!</h2>
+        <p>Płeć: {{ result.gender }}</p>
+        <p>Data urodzenia: {{ result.birth_date }}</p>
+  {% else %}
+    <h2>Numer PESEL jest niepoprawny!</h2>
+  {% endif %}
+</div>
+{% endif %} {% endblock %}

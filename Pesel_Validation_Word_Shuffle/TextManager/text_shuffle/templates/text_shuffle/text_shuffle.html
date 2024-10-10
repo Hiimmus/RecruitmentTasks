@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+ 
+{% block title %}Przesyłanie i przetwarzanie pliku{%endblock %}
+
+{% block body %}
+
+<h1 class="mb-4">Przesyłanie i przetwarzanie pliku</h1>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="file" class="form-label">Wybierz plik tekstowy:</label>
+    <input
+      type="file"
+      class="form-control"
+      id="file"
+      name="file"
+      accept=".txt"
+      required
+    />
+    <small class="form-text text-muted">Maksymalny rozmiar pliku: 100 KB</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Prześlij i przetwórz</button>
+</form>
+
+{% if text %}
+<div class="mt-5">
+  <h2>Twój tekst:</h2>
+  <div class="d-flex align-items-center mb-2">
+    <input type="checkbox" id="toggle-original" checked />
+    <label for="toggle-original" class="ml-2 mb-0">Zwiń tekst</label>
+  </div>
+  <pre id="original-text" class="bg-light p-3 rounded">{{ text }}</pre>
+</div>
+{% endif %}
+{% if modified_text %}
+<div class="mt-5">
+  <h2>Zmodyfikowany tekst:</h2>
+  <div class="d-flex align-items-center mb-2">
+    <input type="checkbox" id="toggle-modified" checked />
+    <label for="toggle-modified" class="ml-2 mb-0">Zwiń tekst</label>
+  </div>
+  <pre id="modified-text" class="bg-light p-3 rounded">{{ modified_text }}</pre>
+</div>
+{% endif %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function toggleVisibility(checkboxId, textId) {
+      const checkbox = document.getElementById(checkboxId);
+      const textElement = document.getElementById(textId);
+
+      checkbox.addEventListener("change", function () {
+        textElement.style.display = this.checked ? "block" : "none";
+      });
+    }
+
+    toggleVisibility("toggle-original", "original-text");
+    toggleVisibility("toggle-modified", "modified-text");
+  });
+</script>
+{% endblock %}
